@@ -5,6 +5,10 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const { check } = require('express-validator');
 const { logger } = require(path.join(__dirname, '../config/logger'));
+const { isLoggedIn, isSuperUser } = require(path.join(
+  __dirname,
+  '../middleware/auth'
+));
 
 const User = require(path.join(__dirname, '../models/user'));
 
@@ -89,5 +93,13 @@ exports.loginUser = [
       // send token/user
       res.json({ user: req.user, token });
     });
+  },
+];
+
+exports.test = [
+  isLoggedIn,
+  isSuperUser,
+  function (req, res, next) {
+    res.end('auth passed');
   },
 ];

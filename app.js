@@ -1,8 +1,8 @@
-const createError = require('http-errors');
-const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const auth = require(path.join(__dirname, './middleware/jwtAuth'));
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/userRoute');
@@ -20,6 +20,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // passport config
 require(path.join(__dirname, '/config/passport'));
+// jwt auth
+app.use(auth);
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
