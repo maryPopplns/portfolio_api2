@@ -4,15 +4,36 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "devstart": "nodemon ./bin/www",
-    "serverstart": "DEBUG=inventory-application:* npm run devstart"
+    "serverstart": "open http://localhost:5050 && nodemon ./bin/www",
+    "test": "jest --watch --coverage --detectOpenHandles",
+    "git": "git add . && git commit && git push origin $(git rev-parse --abbrev-ref HEAD) && echo '\n' && echo $(tput setaf 2)'committed: ' $(tput setaf 1)$(date) && echo '\n'"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.1"
+    "async": "^3.2.3",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "envfile": "^6.17.0",
+    "express": "^4.17.3",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.8",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.7.3",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "uuid": "^8.3.2",
+    "winston": "^3.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.12.0",
+    "jest": "^27.5.1",
+    "mongodb-memory-server": "^8.4.1",
+    "supertest": "^6.2.2"
+  },
+  "engines": {
+    "node": "16.13.2"
   }
 }
