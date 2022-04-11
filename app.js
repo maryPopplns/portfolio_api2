@@ -10,7 +10,7 @@ const userRouter = require('./routes/userRoute');
 const app = express();
 
 // database connection
-require(path.join(__dirname, '/config/mongodb'));
+require(path.join(__dirname, '/config/mongoDB'));
 
 app.use(logger('dev'));
 app.use(express.json());
