@@ -9,11 +9,17 @@ const usersRouter = require('./routes/users');
 
 const app = express();
 
+// database connection
+require(path.join(__dirname, '/config/mongodb'));
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// passport config
+require(path.join(__dirname, '/config/passport'));
 
 app.use('/', indexRouter);
 
