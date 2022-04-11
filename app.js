@@ -5,7 +5,8 @@ const cookieParser = require('cookie-parser');
 const auth = require(path.join(__dirname, './middleware/jwtAuth'));
 
 const indexRouter = require('./routes/index');
-const userRouter = require('./routes/userRoute');
+const userRouter = require('./routes/userRouter');
+const postRouter = require('./routes/postRouter');
 
 const app = express();
 
@@ -24,6 +25,7 @@ require(path.join(__dirname, '/config/passport'));
 app.use(auth);
 
 app.use('/', indexRouter);
+app.use('/post', postRouter);
 app.use('/user', userRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
