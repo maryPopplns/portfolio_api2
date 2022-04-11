@@ -1,4 +1,5 @@
 const path = require('path');
+const cors = require('cors');
 const logger = require('morgan');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -13,6 +14,8 @@ const app = express();
 // database connection
 require(path.join(__dirname, '/config/mongoDB'));
 
+// TODO restrict the origin
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
