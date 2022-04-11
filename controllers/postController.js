@@ -2,7 +2,10 @@ require('dotenv').config();
 const path = require('path');
 const async = require('async');
 const { check } = require('express-validator');
-const { isLoggedIn, isSuperUser } = require(path.join(__dirname, './auth'));
+const { isLoggedIn, isSuperUser } = require(path.join(
+  __dirname,
+  '../middleware/auth'
+));
 
 const Post = require(path.join(__dirname, '../models/post'));
 const User = require(path.join(__dirname, '../models/user'));
@@ -50,7 +53,7 @@ exports.editPost = [
 exports.deletePost = [
   isLoggedIn,
   isSuperUser,
-  function editPost(req, res, next) {
+  function deletePost(req, res, next) {
     const postID = req.params.postID;
 
     Post.findByIdAndDelete(postID)
