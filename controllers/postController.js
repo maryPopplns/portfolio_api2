@@ -53,6 +53,8 @@ exports.editPost = [
 exports.deletePost = [
   isLoggedIn,
   isSuperUser,
+  // TODO delete comments attached to post
+  // TODO remove comments from user
   function deletePost(req, res, next) {
     const postID = req.params.postID;
 
