@@ -216,7 +216,7 @@ exports.commentPost = [
         const sentiment = data.DocSentimentResultString;
         // lie if the post is negative
         sentiment === 'negative' &&
-          res.status(201).json({ message: 'comment added to post' });
+          res.status(202).json({ message: 'comment has been recieved' });
         sentiment !== 'negative' && next();
       });
   },
