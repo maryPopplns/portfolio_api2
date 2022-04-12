@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.93528b6a.css",
+    "main.js": "/static/js/main.d6355a0b.js",
+    "static/js/27.49cc897f.chunk.js": "/static/js/27.49cc897f.chunk.js",
+    "static/media/ArchivoNarrow-VariableFont_wght.ttf": "/static/media/ArchivoNarrow-VariableFont_wght.1a8c2c6552c5bbb5e06d.ttf",
+    "static/media/ArchivoBlack-Regular.ttf": "/static/media/ArchivoBlack-Regular.e35d38651492de9e7226.ttf",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.93528b6a.css",
+    "static/js/main.d6355a0b.js"
+  ]
+}

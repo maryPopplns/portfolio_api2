@@ -95,11 +95,3 @@ exports.loginUser = [
     });
   },
 ];
-
-exports.test = [
-  isLoggedIn,
-  isSuperUser,
-  function (req, res, next) {
-    res.end('auth passed');
-  },
-];
