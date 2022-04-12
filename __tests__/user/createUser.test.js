@@ -4,7 +4,7 @@ const { logger } = require(path.join(__dirname, '../../config/logger'));
 const { app, request } = require(path.join(__dirname, '../setup/appSetup'));
 const mongoDB = require(path.join(__dirname, '../setup/mongoSetup'));
 // user route
-const userRoute = require(path.join(__dirname, '../../routes/userRoute'));
+const userRoute = require(path.join(__dirname, '../../routes/userRouter'));
 app.use('/user', userRoute);
 // user model
 const User = require(path.join(__dirname, '../../models/user'));

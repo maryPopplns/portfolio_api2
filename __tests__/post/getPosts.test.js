@@ -6,7 +6,7 @@ const { logger } = require(path.join(__dirname, '../../config/logger'));
 const { app, request } = require(path.join(__dirname, '../setup/appSetup'));
 const mongoDB = require(path.join(__dirname, '../setup/mongoSetup'));
 // post route
-const postRoute = require(path.join(__dirname, '../../routes/postRoute'));
+const postRoute = require(path.join(__dirname, '../../routes/postRouter'));
 app.use('/post', postRoute);
 // post model
 const Post = require(path.join(__dirname, '../../models/post'));

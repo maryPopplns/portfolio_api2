@@ -1,7 +1,7 @@
 const path = require('path');
 const { app, request } = require(path.join(__dirname, '../setup/appSetup'));
 
-const miscRoute = require(path.join(__dirname, '../../routes/miscRoute'));
+const miscRoute = require(path.join(__dirname, '../../routes/miscRouter'));
 app.use('/', miscRoute);
 
 describe('GET /client', () => {

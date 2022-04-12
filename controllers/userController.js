@@ -27,25 +27,12 @@ exports.createUser = [
       })
       .catch((error) => next(error));
   },
-  // create user
-  async function createUser(req, res, next) {
-    let salt;
-    let hashedPassword;
-
-    // create salt
-    await bcrypt
-      .genSalt(10)
-      .then((result) => (salt = result))
-      .catch((error) => next(error));
-
-    // create hashed password
-    await bcrypt
-      .hash(req.body.password, salt)
-      .then((result) => (hashedPassword = result))
-      .catch((error) => next(error));
+  function createUser(req, res, next) {
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
     // create/save user
-    await User.create({
+    User.create({
       username: req.body.username,
       password: hashedPassword,
     })

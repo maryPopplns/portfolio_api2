@@ -5,7 +5,7 @@ const axios = require('axios');
 const { check } = require('express-validator');
 const { isLoggedIn, isSuperUser } = require(path.join(
   __dirname,
-  '../../controllers/auth'
+  '../../middleware/auth'
 ));
 
 const Post = require(path.join(__dirname, '../../models/post'));
