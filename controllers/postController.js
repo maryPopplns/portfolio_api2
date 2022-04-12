@@ -1,6 +1,7 @@
 require('dotenv').config();
 const path = require('path');
 const async = require('async');
+const axios = require('axios').default;
 const { check } = require('express-validator');
 const { isLoggedIn, isSuperUser } = require(path.join(
   __dirname,
@@ -192,6 +193,33 @@ exports.unlikePost = [
 exports.commentPost = [
   isLoggedIn,
   check('comment').trim().escape(),
+  function sentimentAnalysis(req, res, next) {
+    const params = {
+      PrivateKey: process.env.TEXT_2_DATA_API,
+      DocumentText: req.body.comment,
+    };
+
+    const data = Object.keys(params)
+      .map((key) => `${key}=${encodeURIComponent(params[key])}`)
+      .join('&');
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    };
+
+    axios
+      .post('http://api.text2data.com/v3/analyze', data, config)
+      .then(({ data }) => {
+        req.data = data;
+        const sentiment = data.DocSentimentResultString;
+        // lie if the post is negative
+        sentiment === 'negative' &&
+          res.status(201).json({ message: 'comment added to post' });
+        sentiment !== 'negative' && next();
+      });
+  },
   function createComment(req, res, next) {
     const userID = req.user.id;
     const postID = req.params.postID;
