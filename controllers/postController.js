@@ -53,14 +53,49 @@ exports.editPost = [
 exports.deletePost = [
   isLoggedIn,
   isSuperUser,
-  // TODO delete comments attached to post
-  // TODO remove comments from user
-  function deletePost(req, res, next) {
-    const postID = req.params.postID;
+  function getCommentIds(req, res, next) {
+    Post.findById(req.params.postID)
+      .populate('comments')
+      .then(({ comments }) => {
+        const commentIDs = comments.map((comment) => comment.id);
+        const commentUserIDs = comments.map((comment) => comment.user);
+        req.comments = commentIDs;
+        req.commentUsers = commentUserIDs;
 
-    Post.findByIdAndDelete(postID)
+        next();
+      })
+      .catch(next);
+  },
+  function removePostAndComments(req, res, next) {
+    async
+      .parallel([
+        function deletePost(cb) {
+          const postID = req.params.postID;
+          Post.findByIdAndDelete(postID)
+            .then(() => cb())
+            .catch(next);
+        },
+        function deleteComments(cb) {
+          Comment.deleteMany({
+            _id: {
+              $in: req.comments,
+            },
+          })
+            .then(() => cb())
+            .catch(next);
+        },
+        function removeUserComments(cb) {
+          User.updateMany(
+            { _id: req.commentUsers },
+            { $pullAll: { comments: req.comments } },
+            { upsert: true, new: true }
+          )
+            .then(() => cb())
+            .catch(next);
+        },
+      ])
       .then(() => res.json({ message: 'post has been deleted' }))
-      .catch((error) => next(error));
+      .catch(next);
   },
 ];
 
