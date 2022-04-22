@@ -58,7 +58,6 @@ exports.commentPost = [
       .then(() => {
         // send response, perform analysis on comment
         res.status(201).json({ message: 'comment added to post' });
-        next();
       })
       .catch((error) => next(error));
   },

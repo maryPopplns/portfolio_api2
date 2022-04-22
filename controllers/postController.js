@@ -86,6 +86,7 @@ exports.deletePost = [
             .catch(next);
         },
         function removeUserComments(cb) {
+          // TODO remove
           User.updateMany(
             { _id: req.commentUsers },
             { $pullAll: { comments: req.comments } },
@@ -97,96 +98,6 @@ exports.deletePost = [
       ])
       .then(() => res.json({ message: 'post has been deleted' }))
       .catch(next);
-  },
-];
-
-exports.likePost = [
-  isLoggedIn,
-  function preventDoubleLike(req, res, next) {
-    const likedPosts = req.user.likedPosts;
-    const selectedPost = req.params.postID;
-    const alreadyLiked = likedPosts.includes(selectedPost);
-
-    // post has been liked
-    alreadyLiked && res.status(400).json({ message: 'Currently liked' });
-    // post has not been liked
-    !alreadyLiked && next();
-  },
-  function (req, res, next) {
-    const selectedPost = req.params.postID;
-    const userID = req.user.id;
-
-    async
-      .parallel([
-        function incrementLikes(done) {
-          // increment post likes
-          Post.findByIdAndUpdate(
-            selectedPost,
-            { $inc: { likes: 1 } },
-            { upsert: true, new: true }
-          )
-            .then(() => done(null))
-            .catch((error) => done(error));
-        },
-        function updateUser(done) {
-          // add postID to user like list
-          User.findByIdAndUpdate(
-            userID,
-            { $push: { likedPosts: selectedPost } },
-            { upsert: true, new: true }
-          )
-            .then(() => done(null))
-            .catch((error) => done(error));
-        },
-      ])
-      .then(() => res.json({ message: 'Post has been liked' }))
-      .catch((error) => next(error));
-  },
-];
-
-exports.unlikePost = [
-  isLoggedIn,
-  function preventDoubleUnlike(req, res, next) {
-    const likedPosts = req.user.likedPosts;
-    const selectedPost = req.params.postID;
-    const alreadyLiked = likedPosts.includes(selectedPost);
-
-    // post has not been liked
-    !alreadyLiked && res.status(400).json({ message: 'Currently unliked' });
-    // post has been liked
-    alreadyLiked && next();
-  },
-  function (req, res, next) {
-    const selectedPost = req.params.postID;
-    const userID = req.user.id;
-
-    async
-      .parallel([
-        function decrementLikes(done) {
-          // decrement post likes
-          Post.findByIdAndUpdate(
-            selectedPost,
-            { $inc: { likes: -1 } },
-            { upsert: true, new: true }
-          )
-            .then(() => done(null))
-            .catch((error) => next(error));
-        },
-        function pullPost(done) {
-          // remove postID from likedPosts
-          User.findByIdAndUpdate(
-            userID,
-            { $pullAll: { likedPosts: [{ _id: selectedPost }] } },
-            { upsert: true, new: true }
-          )
-            .then(() => done(null))
-            .catch((error) => next(error));
-        },
-      ])
-      .then(() => res.json({ message: 'Post has been unliked' }))
-      .catch((error) => {
-        next(error);
-      });
   },
 ];
 
@@ -220,13 +131,12 @@ exports.commentPost = [
       });
   },
   function createComment(req, res, next) {
-    const userID = req.user.id;
+    // TODO remove user from comment
     const postID = req.params.postID;
     const userComment = req.body.comment;
 
     Comment.create({
       post: postID,
-      user: userID,
       comment: userComment,
     })
       .then((result) => {
@@ -265,6 +175,7 @@ exports.deletePostComment = [
             .catch((error) => done(error));
         },
         function updateUser(done) {
+          // TODO remove
           User.findByIdAndUpdate(
             userID,
             { $pullAll: { comments: [{ _id: commentID }] } },
@@ -284,94 +195,6 @@ exports.deletePostComment = [
         },
       ])
       .then(() => res.json({ message: 'comment has been deleted' }))
-      .catch((error) => next(error));
-  },
-];
-
-exports.likePostComment = [
-  isLoggedIn,
-  function preventDoubleLike(req, res, next) {
-    const likedComments = req.user.likedComments;
-    const selectedComment = req.params.commentID;
-    const alreadyLiked = likedComments.includes(selectedComment);
-
-    // comment has been liked
-    alreadyLiked && res.status(400).json({ message: 'Currently liked' });
-    // comment has not been liked
-    !alreadyLiked && next();
-  },
-  function (req, res, next) {
-    const selectedComment = req.params.commentID;
-    const userID = req.user._id;
-
-    async
-      .parallel([
-        function incrementLikes(done) {
-          // increment comment likes
-          Comment.findByIdAndUpdate(
-            selectedComment,
-            { $inc: { likes: 1 } },
-            { upsert: true, new: true }
-          )
-            .then(() => done(null))
-            .catch((error) => done(error));
-        },
-        function updateUser(done) {
-          // add commentID to user likedComments list
-          User.findByIdAndUpdate(
-            userID,
-            { $push: { likedComments: selectedComment } },
-            { upsert: true, new: true }
-          )
-            .then(() => done(null))
-            .catch((error) => done(error));
-        },
-      ])
-      .then(() => res.json({ message: 'Comment has been liked' }))
-      .catch((error) => next(error));
-  },
-];
-
-exports.unlikePostComment = [
-  isLoggedIn,
-  function preventDoubleLike(req, res, next) {
-    const likedComments = req.user.likedComments;
-    const selectedComment = req.params.commentID;
-    const alreadyLiked = likedComments.includes(selectedComment);
-
-    // comment has been unliked
-    !alreadyLiked && res.status(400).json({ message: 'Currently unliked' });
-    // comment has not been unliked
-    alreadyLiked && next();
-  },
-  function (req, res, next) {
-    const selectedComment = req.params.commentID;
-    const userID = req.user._id;
-
-    async
-      .parallel([
-        function decrementLikes(done) {
-          // decrement post likes
-          Comment.findByIdAndUpdate(
-            selectedComment,
-            { $inc: { likes: -1 } },
-            { upsert: true, new: true }
-          )
-            .then(() => done(null))
-            .catch((error) => done(error));
-        },
-        function updateUser(done) {
-          // remove commentID from likedPosts
-          User.findByIdAndUpdate(
-            userID,
-            { $pullAll: { likedComments: [{ _id: selectedComment }] } },
-            { upsert: true, new: true }
-          )
-            .then(() => done(null))
-            .catch((error) => done(error));
-        },
-      ])
-      .then(() => res.json({ message: 'Comment has been unliked' }))
       .catch((error) => next(error));
   },
 ];

@@ -6,11 +6,7 @@ const {
   createPost,
   editPost,
   deletePost,
-  likePost,
-  unlikePost,
   deletePostComment,
-  likePostComment,
-  unlikePostComment,
 } = require(path.join(__dirname, '../../controllers/postController'));
 const { commentPost } = require(path.join(__dirname, './postController'));
 
@@ -19,12 +15,6 @@ router.get('/', getPosts);
 router.post('/', createPost);
 router.put('/:postID', editPost);
 router.delete('/:postID', deletePost);
-
-// like routes
-router.put('/like/:postID', likePost);
-router.put('/unlike/:postID', unlikePost);
-router.put('/like/:postID/:commentID', likePostComment);
-router.put('/unlike/:postID/:commentID', unlikePostComment);
 
 // comment routes
 router.post('/comment/:postID', commentPost);

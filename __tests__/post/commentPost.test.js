@@ -80,47 +80,4 @@ describe('POST /post/comment/:postID', () => {
       },
     ]);
   });
-  test('user must be authenticated', (done) => {
-    async.waterfall([
-      function getToken(cb) {
-        request(app)
-          .post('/user/login')
-          .type('form')
-          .send({ username: 'spencer', password: '123' })
-          .then((res) => {
-            const userID = res.body.user._id;
-            const token = res.body.token;
-            cb(null, token, userID);
-          });
-      },
-      function createPost(token, userID, cb) {
-        const title = 'authorized';
-        const body = 'authorized';
-        request(app)
-          .post('/post')
-          .set('Authorization', `Bearer ${token}`)
-          .type('form')
-          .send({ title, body })
-          .then(() => cb(null, token, userID));
-      },
-      function getPostID(token, userID, cb) {
-        request(app)
-          .get('/post')
-          .then((res) => {
-            const postID = res.body[0]._id;
-            cb(null, token, userID, postID);
-          });
-      },
-      function commentPost(token, userID, postID) {
-        const comment = 'comment for the post';
-        const post = postID;
-        const user = userID;
-        request(app)
-          .post(`/post/comment/${postID}`)
-          .type('form')
-          .send({ comment, post, user })
-          .expect(401, done);
-      },
-    ]);
-  });
 });
