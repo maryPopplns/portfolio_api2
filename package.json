@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "serverstart": "open http://localhost:5050 && nodemon ./bin/www",
-    "test": "jest --watch --coverage --detectOpenHandles",
+    "test": "jest --watchAll --coverage --detectOpenHandles",
     "playground": "node utils/dbplayground.js",
     "deploy": "git push heroku main",
     "git": "git add . && git commit && git push origin $(git rev-parse --abbrev-ref HEAD) && echo '\n' && echo $(tput setaf 2)'committed: ' $(tput setaf 1)$(date) && echo '\n'"

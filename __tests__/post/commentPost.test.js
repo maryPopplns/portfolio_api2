@@ -73,7 +73,6 @@ describe('POST /post/comment/:postID', () => {
 
         request(app)
           .post(`/post/comment/${postID}`)
-          .set('Authorization', `Bearer ${token}`)
           .type('form')
           .send({ comment, post, user })
           .expect(201, done);
