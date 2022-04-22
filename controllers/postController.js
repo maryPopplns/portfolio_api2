@@ -191,7 +191,6 @@ exports.unlikePost = [
 ];
 
 exports.commentPost = [
-  isLoggedIn,
   check('comment').trim().escape(),
   function sentimentAnalysis(req, res, next) {
     const params = {
@@ -214,7 +213,7 @@ exports.commentPost = [
       .then(({ data }) => {
         req.data = data;
         const sentiment = data.DocSentimentResultString;
-        // lie if the post is negative
+        // if the post is negative
         sentiment === 'negative' &&
           res.status(202).json({ message: 'comment has been recieved' });
         sentiment !== 'negative' && next();
@@ -236,32 +235,15 @@ exports.commentPost = [
       })
       .catch((error) => next(error));
   },
-  function (req, res, next) {
-    const userID = req.user.id;
+  function updatePost(req, res, next) {
     const postID = req.params.postID;
     const commentID = req.commentID;
 
-    async
-      .parallel([
-        function updateUser(done) {
-          User.findByIdAndUpdate(
-            userID,
-            { $push: { comments: commentID } },
-            { upsert: true, new: true }
-          )
-            .then(() => done(null))
-            .catch((error) => done(error));
-        },
-        function updatePost(done) {
-          Post.findByIdAndUpdate(
-            postID,
-            { $push: { comments: commentID } },
-            { upsert: true, new: true }
-          )
-            .then(() => done(null))
-            .catch((error) => done(error));
-        },
-      ])
+    Post.findByIdAndUpdate(
+      postID,
+      { $push: { comments: commentID } },
+      { upsert: true, new: true }
+    )
       .then(() => res.status(201).json({ message: 'comment added to post' }))
       .catch((error) => next(error));
   },
