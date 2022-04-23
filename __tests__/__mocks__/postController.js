@@ -1,9 +1,6 @@
 require('dotenv').config();
 const path = require('path');
-const async = require('async');
-const axios = require('axios').default;
 const { check } = require('express-validator');
-const { isLoggedIn } = require(path.join(__dirname, '../../middleware/auth'));
 
 const Post = require(path.join(__dirname, '../../models/post'));
 const Comment = require(path.join(__dirname, '../../models/comment'));
