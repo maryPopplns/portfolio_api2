@@ -23,7 +23,7 @@ exports.contact = [
     errors && res.status(400).json({ message: 'incorrect email format' });
     !errors && next();
   },
-  function sendEmail(req, res, next) {
+  function sendEmail(req, res) {
     const transporter = nodemailer.createTransport({
       host: 'smtp.mail.yahoo.com',
       port: 465,

@@ -36,7 +36,7 @@ describe('POST /grammar', () => {
     }).catch((error) => logger.error(`${error}`));
   });
 
-  test('users can comment on posts', (done) => {
+  test('grammar api send successful response', (done) => {
     nock('https://api.textgears.com').get(/.*/gi).reply(200);
 
     async.waterfall([
