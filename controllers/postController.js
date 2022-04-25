@@ -23,9 +23,9 @@ exports.getPosts = function (req, res, next) {
           const decodedTitle = he.decode(title);
           const decodedBody = he.decode(body);
           const decodedCategory = he.decode(category);
-          const decodedComments = comments.map(({ date, comment }) => {
+          const decodedComments = comments.map(({ _id, date, comment }) => {
             const decodedComment = he.decode(comment);
-            return { date, comment: decodedComment };
+            return { _id, date, comment: decodedComment };
           });
 
           return {
