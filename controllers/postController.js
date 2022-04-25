@@ -25,10 +25,14 @@ exports.createPost = [
   isSuperUser,
   check('title').trim().escape(),
   check('body').trim().escape(),
+  check('category').trim().escape(),
+  check('showing').trim().escape(),
   function savePost(req, res, next) {
     Post.create({
       title: req.body.title,
       body: req.body.body,
+      category: req.body.category,
+      showing: req.body.showing,
     })
       .then(() => res.status(201).json({ message: 'post created' }))
       .catch((error) => next(error));
@@ -38,11 +42,17 @@ exports.createPost = [
 exports.editPost = [
   isLoggedIn,
   isSuperUser,
+  check('title').trim().escape(),
+  check('body').trim().escape(),
+  check('category').trim().escape(),
+  check('showing').trim().escape(),
   function editPost(req, res, next) {
     const postID = req.params.postID;
     const updatedPost = {
       title: req.body.title,
       body: req.body.body,
+      category: req.body.category,
+      showing: req.body.showing,
     };
 
     Post.findByIdAndUpdate(postID, updatedPost)
@@ -67,7 +77,7 @@ exports.deletePost = [
       })
       .catch(next);
   },
-  function removePostAndComments(req, res, next) {
+  function deletePostAndComments(req, res, next) {
     async
       .parallel([
         function deletePost(cb) {
@@ -82,16 +92,6 @@ exports.deletePost = [
               $in: req.comments,
             },
           })
-            .then(() => cb())
-            .catch(next);
-        },
-        function removeUserComments(cb) {
-          // TODO remove
-          User.updateMany(
-            { _id: req.commentUsers },
-            { $pullAll: { comments: req.comments } },
-            { upsert: true, new: true }
-          )
             .then(() => cb())
             .catch(next);
         },

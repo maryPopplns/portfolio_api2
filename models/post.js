@@ -7,6 +7,8 @@ const postSchema = new Schema({
   body: { type: String, required: true },
   date: { type: Date, default: Date.now },
   likes: { type: Number, default: 0 },
+  category: { type: String, required: true },
+  showing: { type: Boolean, required: true },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 });
 

@@ -139,4 +139,6 @@ REST API for my portfolio sites blog.
 
 ## Tech Stack
 
-**Client:** React, Node, Express, MongoDB.
+**API:** Node, Express, MongoDB. Tested with jest, supertest, nock.
+
+// TODO push to heroku. new UI
