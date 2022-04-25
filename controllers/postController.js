@@ -17,8 +17,8 @@ exports.getPosts = function (req, res, next) {
   Post.find()
     .populate('comments')
     .lean()
-    .then((posts) => {
-      const filteredPosts = posts.map(
+    .then((allPosts) => {
+      const filteredPosts = allPosts.map(
         ({ _id, date, title, body, category, showing, comments }) => {
           const decodedTitle = he.decode(title);
           const decodedBody = he.decode(body);
@@ -34,9 +34,8 @@ exports.getPosts = function (req, res, next) {
           };
         }
       );
-      res.json({
-        posts: filteredPosts,
-      });
+      const posts = filteredPosts;
+      res.json(posts);
     })
     .catch((error) => next(error));
 };
