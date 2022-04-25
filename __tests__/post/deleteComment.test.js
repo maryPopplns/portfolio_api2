@@ -55,11 +55,13 @@ describe('DELETE /post/comment/:postID/:commentID', () => {
       function createPost(token, userID, cb) {
         const title = 'authorized';
         const body = 'authorized';
+        const category = 'tech';
+        const showing = true;
         request(app)
           .post('/post')
           .set('Authorization', `Bearer ${token}`)
           .type('form')
-          .send({ title, body })
+          .send({ title, body, category, showing })
           .then(() => cb(null, token, userID));
       },
       function getPostID(token, userID, cb) {
@@ -115,11 +117,13 @@ describe('DELETE /post/comment/:postID/:commentID', () => {
       function createPost(token, userID, cb) {
         const title = 'authorized';
         const body = 'authorized';
+        const category = 'tech';
+        const showing = true;
         request(app)
           .post('/post')
           .set('Authorization', `Bearer ${token}`)
           .type('form')
-          .send({ title, body })
+          .send({ title, body, category, showing })
           .then(() => cb(null, token, userID));
       },
       function getPostID(token, userID, cb) {

@@ -50,6 +50,8 @@ describe('PUT /post/:postID', () => {
       _id: objectID,
       title: 'title of the post',
       body: 'body of the post',
+      category: 'tech',
+      showing: true,
     }).catch((error) => logger.error(`${error}`));
   });
 
@@ -69,11 +71,13 @@ describe('PUT /post/:postID', () => {
       function editPost(token) {
         const title = 'authorized';
         const body = 'authorized';
+        const category = 'new';
+        const showing = true;
         request(app)
           .put(`/post/${objectID}`)
           .set('Authorization', `Bearer ${token}`)
           .type('form')
-          .send({ title, body })
+          .send({ title, body, category, showing })
           .expect(200, done);
       },
     ]);

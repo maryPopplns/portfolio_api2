@@ -57,11 +57,13 @@ describe('create posts', () => {
       function createPost(token) {
         const title = 'authorized';
         const body = 'authorized';
+        const category = 'new';
+        const showing = true;
         request(app)
           .post('/post')
           .set('Authorization', `Bearer ${token}`)
           .type('form')
-          .send({ title, body })
+          .send({ title, body, category, showing })
           .expect(201, done);
       },
     ]);
@@ -69,10 +71,12 @@ describe('create posts', () => {
   test('user needs to be authorized', (done) => {
     const title = 'not authorized';
     const body = 'not authorized';
+    const category = 'new';
+    const showing = true;
     request(app)
       .post('/post')
       .type('form')
-      .send({ title, body })
+      .send({ title, body, category, showing })
       .expect(401, done);
   });
   test('user needs to be superUser', (done) => {
@@ -89,11 +93,13 @@ describe('create posts', () => {
       function attemptToPost(token) {
         const title = 'not superUser';
         const body = 'not superUser';
+        const category = 'new';
+        const showing = true;
         request(app)
           .post('/post')
           .set('Authorization', `Bearer ${token}`)
           .type('form')
-          .send({ title, body })
+          .send({ title, body, category, showing })
           .expect(403, done);
       },
     ]);

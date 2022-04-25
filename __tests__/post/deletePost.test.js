@@ -51,6 +51,8 @@ describe('DELETE /post/:postID', () => {
       _id: objectID,
       title: 'title of the post',
       body: 'body of the post',
+      category: 'tech',
+      showing: true,
     }).catch((error) => logger.error(`${error}`));
   });
 
@@ -76,14 +78,7 @@ describe('DELETE /post/:postID', () => {
     ]);
   });
   test('user needs to be authorized', (done) => {
-    const title = 'not authorized';
-    const body = 'not authorized';
-
-    request(app)
-      .delete(`/post/${objectID}`)
-      .type('form')
-      .send({ title, body })
-      .expect(401, done);
+    request(app).delete(`/post/${objectID}`).expect(401, done);
   });
   test('user needs to be superUser', (done) => {
     const title = 'not superUser';

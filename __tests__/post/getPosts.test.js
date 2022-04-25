@@ -22,14 +22,20 @@ describe('GET /post', () => {
       {
         title: 'first',
         body: 'first',
+        category: 'tech',
+        showing: true,
       },
       {
         title: 'second',
         body: 'second',
+        category: 'tech',
+        showing: true,
       },
       {
         title: 'third',
         body: 'third',
+        category: 'tech',
+        showing: true,
       },
     ]).catch((error) => logger.error(`${error}`));
 
