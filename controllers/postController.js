@@ -23,6 +23,10 @@ exports.getPosts = function (req, res, next) {
           const decodedTitle = he.decode(title);
           const decodedBody = he.decode(body);
           const decodedCategory = he.decode(category);
+          const decodedComments = comments.map(({ date, comment }) => {
+            const decodedComment = he.decode(comment);
+            return { date, comment: decodedComment };
+          });
 
           return {
             _id,
@@ -31,6 +35,7 @@ exports.getPosts = function (req, res, next) {
             title: decodedTitle,
             body: decodedBody,
             category: decodedCategory,
+            comments: decodedComments,
           };
         }
       );
