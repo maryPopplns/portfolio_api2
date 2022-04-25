@@ -1,4 +1,5 @@
 require('dotenv').config();
+const he = require('he');
 const path = require('path');
 const async = require('async');
 const axios = require('axios').default;
@@ -16,7 +17,27 @@ exports.getPosts = function (req, res, next) {
   Post.find()
     .populate('comments')
     .lean()
-    .then((posts) => res.json(posts))
+    .then((posts) => {
+      const filteredPosts = posts.map(
+        ({ _id, date, title, body, category, showing, comments }) => {
+          const decodedTitle = he.decode(title);
+          const decodedBody = he.decode(body);
+          const decodedCategory = he.decode(category);
+
+          return {
+            _id,
+            showing,
+            date,
+            title: decodedTitle,
+            body: decodedBody,
+            category: decodedCategory,
+          };
+        }
+      );
+      res.json({
+        posts: filteredPosts,
+      });
+    })
     .catch((error) => next(error));
 };
 
