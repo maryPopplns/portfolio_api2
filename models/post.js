@@ -7,7 +7,7 @@ const postSchema = new Schema({
   body: { type: String, required: true },
   date: { type: Date, default: Date.now },
   category: { type: String, required: true },
-  showing: { type: Boolean, required: true },
+  showing: { type: Boolean, required: true, default: true },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 });
 
