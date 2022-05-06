@@ -156,7 +156,6 @@ exports.commentPost = [
       });
   },
   function createComment(req, res, next) {
-    // TODO remove user from comment
     const postID = req.params.postID;
     const userComment = req.body.comment;
 
@@ -189,7 +188,6 @@ exports.deletePostComment = [
   isSuperUser,
   function (req, res, next) {
     const commentID = req.params.commentID;
-    const userID = req.user.id;
     const postID = req.params.postID;
 
     async
@@ -198,16 +196,6 @@ exports.deletePostComment = [
           Comment.findByIdAndDelete(commentID)
             .then(() => done(null))
             .catch((error) => done(error));
-        },
-        function updateUser(done) {
-          // TODO remove
-          User.findByIdAndUpdate(
-            userID,
-            { $pullAll: { comments: [{ _id: commentID }] } },
-            { upsert: true, new: true }
-          )
-            .then(() => done(null))
-            .catch((error) => next(error));
         },
         function updatePost(done) {
           Post.findByIdAndUpdate(

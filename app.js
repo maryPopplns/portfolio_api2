@@ -32,7 +32,7 @@ app.use('/post', postRouter);
 app.use('/user', userRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  // TODO create 404
+  res.status(404).end();
 });
 
 // error handler
