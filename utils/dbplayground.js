@@ -21,7 +21,7 @@ function createUser() {
       superUser: true,
     },
     {
-      username: 'michael',
+      username: 'test',
       password: hashedPassword,
     },
   ])

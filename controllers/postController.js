@@ -10,7 +10,6 @@ const { isLoggedIn, isSuperUser } = require(path.join(
 ));
 
 const Post = require(path.join(__dirname, '../models/post'));
-const User = require(path.join(__dirname, '../models/user'));
 const Comment = require(path.join(__dirname, '../models/comment'));
 
 exports.getPosts = function (req, res, next) {
@@ -27,7 +26,6 @@ exports.getPosts = function (req, res, next) {
             const decodedComment = he.decode(comment);
             return { _id, date, comment: decodedComment };
           });
-
           return {
             _id,
             showing,
