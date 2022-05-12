@@ -48,8 +48,6 @@ exports.contact = [
 ];
 
 exports.grammar = [
-  isLoggedIn,
-  isSuperUser,
   check('body').trim().escape(),
   function (req, res, next) {
     const body = req.body.body;
