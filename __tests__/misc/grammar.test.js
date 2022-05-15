@@ -26,11 +26,6 @@ describe('POST /grammar', () => {
     nock('https://api.textgears.com').get(/.*/gi).reply(200);
     const body = 'authorized';
 
-    request(app)
-      .post('/grammar')
-      // .set('Authorization', `Bearer ${token}`)
-      .type('form')
-      .send({ body })
-      .expect(200, done);
+    request(app).post('/grammar').type('form').send({ body }).expect(200, done);
   });
 });
