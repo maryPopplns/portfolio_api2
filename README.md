@@ -1,6 +1,10 @@
 # Blog API
 
-REST API for my portfolio sites blog.
+CRUD app for my portfolio's blog. Serves my blog CMS, handles creation, editing, deleting of posts/comments. To encourage people to comment, I removed the need to authenticate users. As a replacement, a sentiment analysis API was implemented to detect and remove negative comments.
+
+## Tech Stack
+
+**API:** Node, Express, MongoDB. Tested with jest, supertest, nock.
 
 <br>
 ## Environment Variables
@@ -136,9 +140,3 @@ REST API for my portfolio sites blog.
 
 <br>
 ## Authentication
-
-## Tech Stack
-
-**API:** Node, Express, MongoDB. Tested with jest, supertest, nock.
-
-// TODO push to heroku. new UI
