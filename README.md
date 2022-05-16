@@ -1,6 +1,6 @@
 # Blog API
 
-CRUD app for my portfolio's blog. Serves my blog CMS, handles creation, editing, deleting of posts/comments. To encourage people to comment, I removed the need to authenticate users. As a replacement, a sentiment analysis API was implemented to detect and remove negative comments.
+CRUD app for my portfolio's blog. Serves my blog CMS, handles creation, editing, deleting of posts/comments. To encourage people to comment, I removed the need to authenticate users when commenting.
 
 ## Tech Stack
 
