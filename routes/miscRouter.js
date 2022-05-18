@@ -7,7 +7,6 @@ const { client, grammar } = require(path.join(
 ));
 
 router.get('/client', client);
-// router.post('/contact', contact);
 router.post('/grammar', grammar);
 
 module.exports = router;
